@@ -59,9 +59,9 @@ def process_stereo_images(imgL_path, imgR_path):
         else:
             dist = f"{np.median(valid_dist):.2f} m"
 
-        cv2.rectangle(img_with_boxes, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.rectangle(img_with_boxes, (x1, y1), (x2, y2), (0, 255, 0), 20)
         cv2.putText(img_with_boxes, f"{label} - {dist}", (x1, y1 - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+                    cv2.FONT_HERSHEY_SIMPLEX, 10, (0, 255, 255), 20)
 
     # Salvar resultados separadamente
     cv2.imwrite("deteccao_e_distancias.png", img_with_boxes)
@@ -69,7 +69,7 @@ def process_stereo_images(imgL_path, imgR_path):
 
     print("✅ Imagens salvas:")
     print(" → deteccao_e_distancias.png")
-    print(" → mapa_de_profundidade.png")
+    print(" → mapa_de_profundidade.png\n")
 
 if __name__ == '__main__':
     process_stereo_images("esquerda.jpg", "direita.jpg")
