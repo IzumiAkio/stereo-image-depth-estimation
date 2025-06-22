@@ -20,10 +20,19 @@ def estimate_distance(focal_length, baseline, disparity):
         distance[disparity <= 0] = 0
     return distance
 
+# Converte a distância focal da lente em milímetros para pixels
+def convert_focal_length(img_width):
+    focal_length_mm = int(input("Informe a distância focal em mm: "))
+    sensor_width = float(input("Informe a largura do sensor em mm: "))
+    return (focal_length_mm/sensor_width)*img_width
+
 # Função principal com salvamento automático
-def process_stereo_images(imgL_path, imgR_path, focal_length=700, baseline=0.1):
+def process_stereo_images(imgL_path, imgR_path):
     imgL = cv2.imread(imgL_path)
     imgR = cv2.imread(imgR_path)
+    img_width = imgL.shape[1]
+    focal_length = convert_focal_length(img_width)
+    baseline=float(input("Informe o baseline em metros: "))
 
     # Calcula disparidade e profundidade
     disparity = compute_disparity_map(imgL, imgR)
@@ -55,12 +64,12 @@ def process_stereo_images(imgL_path, imgR_path, focal_length=700, baseline=0.1):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
 
     # Salvar resultados separadamente
-    cv2.imwrite("detecção_e_distancias.png", img_with_boxes)
+    cv2.imwrite("deteccao_e_distancias.png", img_with_boxes)
     cv2.imwrite("mapa_de_profundidade.png", disp_vis_color)
 
     print("✅ Imagens salvas:")
-    print(" → detecção_e_distancias.png")
+    print(" → deteccao_e_distancias.png")
     print(" → mapa_de_profundidade.png")
 
 if __name__ == '__main__':
-    process_stereo_images("esquerda.jpg", "direita.jpg", focal_length=12766, baseline=0.015)
+    process_stereo_images("esquerda.jpg", "direita.jpg")
